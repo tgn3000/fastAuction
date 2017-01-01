@@ -1,11 +1,16 @@
 /* Copyright 2017 <Copyright Guangning Tan, Florian Bernard>
 
- C++ interface of Florian Bernard's original MEX implementation [1] of Bertsekas' auction algorithm [2] for sparse linear assignment problems (LAPs).
- 
- [1] Bernard, F. 2016. Fast Linear Assignment Problem using Auction Algorithm (MEX) v2.4. https://www.mathworks.com/matlabcentral/fileexchange/48448-fast-linear-assignment-problem-using-auction-algorithm--mex-
- [2] Bertsekas, D.P. 1998. Network Optimization: Continuous and Discrete Models. Athena Scientific.
+ C++ interface of Florian Bernard's original MEX implementation [1] of
+ Bertsekas' auction algorithm [2] for sparse linear assignment problems (LAPs).
 
- Original MEX implementation by Florian Bernard ( f.bernardpi [at] gmail [dot] com )
+ [1] Bernard, F. 2016. Fast Linear Assignment Problem using Auction Algorithm
+ (MEX) v2.4.
+ https://www.mathworks.com/matlabcentral/fileexchange/48448-fast-linear-assignment-problem-using-auction-algorithm--mex-
+ [2] Bertsekas, D.P. 1998. Network Optimization: Continuous and Discrete Models.
+ Athena Scientific.
+
+ Original MEX implementation by Florian Bernard ( f.bernardpi [at] gmail [dot]
+ com )
  Modification by Guangning (Gary) Tan ( tgn [at] mit [dot] edu )
 
  Created on 1 Jan 2017
@@ -20,7 +25,8 @@ void auction( int n, int *ic, int *jr, double *Cx,  // input
 {
     // input data
     double *sparseAPr = new double[ jr[ n ] ];
-    // Use default setting in Florian's sparseAssignmentProblemAuctionAlgorithm.m
+    // Use default setting in Florian's
+    // sparseAssignmentProblemAuctionAlgorithm.m
     double epsilon, epsilonDecreaseFactor;
 
     double maxAbsA = 0.0, n_plus_one = n + 1.0, scaledMaxAbsA;

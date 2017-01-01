@@ -1,7 +1,7 @@
 # !/bin/bash
 
-CC  = clang++
-CXX = clang++
+CC  = g++
+CXX = g++
 CXXFLAGS = -std=c++11 -g -O3
 LDLIBS = -lstdc++
 
@@ -16,12 +16,15 @@ $(EXEC): % : %.o $(OBJS)
 re:
 	make clean && make
 
-.PHONY: clean cleanall
+run:
+	@-make --no-print-directory clean && make --no-print-directory
+	@-dataDir=../Data; \
+	name=`ls $$dataDir`; \
+	for i in $$name; do \
+		./main $$dataDir/$$i; \
+	done
+
+.PHONY: clean
 clean :
 	@-rm -rf *.o *~* *#* $(EXEC) *.dSYM
-	@-DateTime=`date +%Y%m%d%H%M%S`; \
-	mkdir $$DateTime; \
-	find . -type d -empty -delete
 
-cleanall:
-	-@make clean && rm -rf LOG_*

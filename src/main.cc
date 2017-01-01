@@ -36,54 +36,24 @@ int main( int argc, char *argv[] ) {
     /* fill entries in matrix */
     fillMatrix( p, pattern, nnz, Cx );
 
+    printf( "Solving Matrix ID %i\tn=%i\tnnz=%i ...\n", id, matrix_size,
+            arc_count );
     /* Auction algorithm */
     for ( int i = 0; i < NUM_REPETITION; i++ ) {
-        auction_cputime = getCPUwithETIME();
+        auction_cputime = -getCPUwithETIME();
         auction( matrix_size, ic, jr, Cx, sig_entry, col_sol );
-        auction_cputime_total += getCPUwithETIME() - auction_cputime;
+        auction_cputime_total += getCPUwithETIME();
 
         cost_auction = computeCost( matrix_size, ic, jr, Cx, col_sol );
     }
 
-    //    free(col_sol);
-    //
-    //    /* CSA without BTF */
-    //    /* pre-process input */
-    //    for( int i=0; i<matrix_size; i++ )
-    //        std::fill( col_ind+jr[i], col_ind+jr[i+1], i+1+matrix_size );
-    //    memmove( row_ind, ic, arc_count * sizeof(int) );
-    //    for( int i=0; i<arc_count; i++ )
-    //        row_ind[i]++;
-    //    memmove( sig_entry, Cx, arc_count * sizeof(double) );
-    //    for( int i=0; i<NUM_REPETITION; i++ )
-    //    {
-    //        /* solve lap with row and column SWAPPED */
-    //        CSA_Q lap( matrix_size, arc_count, row_ind, col_ind, sig_entry );
-    //        lap.Solve();
-    //
-    //        memmove( row_sol, lap.row_sol_, matrix_size * sizeof(int) );
-    //        cost_csa = -lap.cost_;
-    //        csa_cputime_total  += lap.cputime_ + lap.parse_time_;
-    //
-    //        for( int j=0; j<matrix_size; j++ )
-    //            row_sol[j] -= matrix_size+1;
-    //
-    //        col_sol = cs_pinv( row_sol, matrix_size );
-    //        cost_verify = ComputeCost( C, col_sol );
-    //    }
-    //    assert( cost_verify  == cost_csa );
-    //    assert( cost_auction == cost_csa );
-    //
-    //    /* post-process timing results */
-
-    //    csa_cputime  = csa_cputime_total/NUM_REPETITION;
-    //
     auction_cputime = auction_cputime_total / NUM_REPETITION;
     FILE *outfile   = fopen( "AUCTION_result.txt", "a" );
     fprintf( outfile, "%i\t%i\t%i\t%i\t%e\n", id, matrix_size, arc_count,
              (int)cost_auction - matrix_size, auction_cputime );
-    printf( "%i\t%i\t%i\t%i\t%e\n", id, matrix_size, arc_count,
-            (int)cost_auction - matrix_size, auction_cputime );
+    printf( "\e[ASolved Matrix ID %i \tn=%i\tnnz=%i\tprofit=%i\tCPUtime=%.1e\n",
+            id, matrix_size, arc_count, (int)cost_auction - matrix_size,
+            auction_cputime );
     fclose( outfile );
 
     /* finalize, free memory */

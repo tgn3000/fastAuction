@@ -38,8 +38,6 @@ void readFile( char* filename, int& id, int& n, int& nnz, /* input */
         infile >> ic[ k ];
 
     infile.close();
-
-    printf( "n = %i, nnz = %i\n", n, nnz );
 }
 
 void fillMatrix( const int p, const int pattern[], const int nnz,  // input
