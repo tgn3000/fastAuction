@@ -1,7 +1,7 @@
 # !/bin/bash
 
-CC  = g++
-CXX = g++
+CC  = clang
+CXX = clang
 CXXFLAGS = -std=c++11 -g -O3
 LDLIBS = -lstdc++
 

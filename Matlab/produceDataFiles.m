@@ -1,7 +1,7 @@
-clear; close all; clc
+function produceDataFiles()
 
 % load data of selected matrices
-Data = xlsread('CSA_results.xlsx');
+Data = csvread('LAPresults.csv');
 nMatrix = size(Data,1);
 
 currDir = pwd;
@@ -10,25 +10,49 @@ dataDir = [upDir '/Data'];
 
 if ~exist(dataDir,'dir'), mkdir(dataDir); end
 
-numOfCoarseBlocks = [];
-smallestNumberOfCoarseBlocks = 10;
-
 for i=1:40%nMatrix
-    
-    MatrixID = Data(i,1);
-    filename = sprintf('UFmat_%04u.dat', MatrixID);
-    fullfilename = [dataDir '/' filename];
-    
-    prob = UFget(MatrixID);
-    A = prob.A;
-    
-    if ~exist(fullfilename, 'file')
-        fprintf('Writing a text file for outputing the matrix in CSC form ...\n')
-        sparseMatrix2CSC(prob, fullfilename);
-        fprintf('Finished writing.\n')
-    end
-    
-    fprintf('i=%3i, ID=%4i, n=%5i, nz=%7i\n', i, MatrixID, size(A,1), nnz(A));
-    
-    fprintf('------------------------------------------------------------\n');
+  
+  MatrixID = Data(i,1);
+  filename = sprintf('UFmat_%04u.dat', MatrixID);
+  fullfilename = [dataDir '/' filename];
+  
+  prob = UFget(MatrixID);
+  A = prob.A;
+  
+  if ~exist(fullfilename, 'file')
+    fprintf('Writing a text file for outputing the matrix in CSC form ...\n')
+    sparseMatrix2CSC(prob, fullfilename);
+    fprintf('Finished writing.\n')
+  end
+  
+  fprintf('i=%3i, ID=%4i, n=%5i, nnz=%7i\n', i, MatrixID, size(A,1), nnz(A));
+  
+  fprintf('------------------------------------------------------------\n');
+end
+
+end
+
+function sparseMatrix2CSC(prob, filename, options)
+
+if nargin<3, options='w'; end
+
+A          = prob.A;
+id         = prob.id;
+n          = size(A,1);
+sparseA    = A~=0;
+sumRow     = full(sum(sparseA,1));
+colPointer = cumsum(sumRow);
+nz         = nnz(sparseA);
+
+[i,~,~] = find(A);
+fid = fopen(filename, options);
+
+% matrixID, size, nnz
+fprintf(fid, '%i ', id, n, nz);
+% Column pointer, C->p
+fprintf(fid, '%i ', [0 colPointer]);
+% Row indices, C->i
+fprintf(fid, '%i ', i-1);
+
+fclose(fid);
 end
