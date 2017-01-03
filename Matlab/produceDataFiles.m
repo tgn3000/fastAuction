@@ -1,8 +1,8 @@
-function produceDataFiles()
+function produceDataFiles(setMatrices)
 
 % load data of selected matrices
 Data = csvread('LAPresults.csv');
-nMatrix = size(Data,1);
+if nargin==0, setMatrices = 1:size(Data,1); end
 
 currDir = pwd;
 upDir = currDir(1:find(currDir=='/',1,'last')-1);
@@ -10,7 +10,7 @@ dataDir = [upDir '/Data'];
 
 if ~exist(dataDir,'dir'), mkdir(dataDir); end
 
-for i=1:40%nMatrix
+for i = setMatrices
   
   MatrixID = Data(i,1);
   filename = sprintf('UFmat_%04u.dat', MatrixID);
@@ -26,8 +26,8 @@ for i=1:40%nMatrix
   end
   
   fprintf('i=%3i, ID=%4i, n=%5i, nnz=%7i\n', i, MatrixID, size(A,1), nnz(A));
+  fprintf('--------------------------------------\n');
   
-  fprintf('------------------------------------------------------------\n');
 end
 
 end

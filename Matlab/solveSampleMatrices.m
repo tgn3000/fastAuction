@@ -1,8 +1,8 @@
-clear; close all; clc
+function solveSampleMatrices(setMatrices)
 
 %% load sample matrices
 Data = csvread('LAPresults.csv');
-nMatrix = size(Data,1);
+if nargin==0, setMatrices = 1:size(Data,1); end
 
 % mex -setup C++
 delete([pwd '/*.mexmaci64'])
@@ -16,8 +16,9 @@ numelPattern = numel(pattern);
 % 1) https://www.cise.ufl.edu/research/sparse/matrices/
 % 2) http://www.cise.ufl.edu/research/sparse/mat/UFget.html
 
-for MATi = 1:nMatrix
+for MATi = setMatrices
   
+  % extract sparsity pattern from the SuiteSparse Matrix Collection
   matID = Data(MATi,1);
   prob = UFget(matID);
   A = prob.A;
@@ -33,11 +34,13 @@ for MATi = 1:nMatrix
   
   % call Florian's solver to solve the assignment problem
   verbosity = 0;
-  doFeasibilityCheck = 1;
   [assignments, prices] = ...
     sparseAssignmentProblemAuctionAlgorithm( M, [], [], verbosity );
   
   % optimal value
   profit = full(sum(M((1:n)'+n*(assignments-1))))-n;
   fprintf('profit = %i\n', profit);
+  assert(profit==Data(MATi,4));
+  
+end
 end
