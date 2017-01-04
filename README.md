@@ -28,7 +28,7 @@ To cite this code, please use [3].
 
 ### References
 
-[1] Bernard, F. 2016. Fast Linear Assignment Problem using Auction Algorithm (MEX) v2.4. https://www.mathworks.com/matlabcentral/fileexchange/48448
+[1] Bernard, F., Vlassis, N., Gemmar, P., Husch, A., Thunberg, J., Goncalves, J. and Hertel, F. 2016. Fast correspondences for statistical shape models of brain structures. SPIE Medical Imaging, San Diego, CA, 2016. Available at https://www.mathworks.com/matlabcentral/fileexchange/48448
 
 [2] Bertsekas, D.P. 1998. Network Optimization: Continuous and Discrete Models. Athena Scientific.
 
