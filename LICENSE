@@ -1,6 +1,7 @@
-C++ Interface of Florian Bernard's Original Mex Implementation of Bertsekas' Auction Algorithm
+C++ Interface of Florian Bernard's Original Mex Implementation of Bertsekas' 
+Auction Algorithm for Solving Sparse Linear Assignment Problems (LAPs)
 
-Copyright (c) 2017, Guangning Tan, Florian Bernard
+Copyright (c) 2017, Florian Bernard, Guangning Tan
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
