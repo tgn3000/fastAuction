@@ -1,6 +1,6 @@
 function solveSampleMatrices(setMatrices)
 
-%% load sample matrices
+% load sample matrices
 Data = csvread('LAPresults.csv');
 if nargin==0, setMatrices = 1:size(Data,1); end
 
@@ -8,13 +8,9 @@ if nargin==0, setMatrices = 1:size(Data,1); end
 delete([pwd '/*.mexmaci64'])
 mex -largeArrayDims ../FlorianFastAuction/auctionAlgorithmSparseMex.cpp -lut
 
-%% my filling pattern for experiment
+% experiment filling pattern to fill matrices
 pattern = [2 1 0 1 1 0 2]';
 numelPattern = numel(pattern);
-
-%% obtain sparsity pattern by UFget; see
-% 1) https://www.cise.ufl.edu/research/sparse/matrices/
-% 2) http://www.cise.ufl.edu/research/sparse/mat/UFget.html
 
 for MATi = setMatrices
   
@@ -38,7 +34,7 @@ for MATi = setMatrices
     sparseAssignmentProblemAuctionAlgorithm( M, [], [], verbosity );
   
   % optimal value
-  profit = full(sum(M((1:n)'+n*(assignments-1))))-n;
+  profit = full(sum(M((1:n)'+n*(assignments-1))));
   fprintf('profit = %i\n', profit);
   assert(profit==Data(MATi,4));
   
